@@ -185,8 +185,12 @@ UPROGS=\
 	_printstats\
 	_save\
 	_testdatetime\
+<<<<<<< HEAD
 	_getzombcount\
 	_zombietest\
+=======
+	_timertest\
+>>>>>>> 2b5d7b456414fa173d2e8ce97b4506407cb9801b
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -256,8 +260,11 @@ qemu-nox-gdb: fs.img xv6.img .gdbinit
 EXTRA=\
 	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
 	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
-	printstats.c\ save.c\ testdatetime.c\
+	printstats.c\ save.c\ testdatetime.c\ timertest.c\
 	printf.c umalloc.c\ sorting.c\ getzombcount.c\ zombietest.c\
+	printstats.c\ save.c\ testdatetime.c\ 
+	
+
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 

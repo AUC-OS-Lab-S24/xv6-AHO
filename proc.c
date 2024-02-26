@@ -112,6 +112,8 @@ found:
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
 
+  //initalize ticks
+  p->alarmOn = 0;
   return p;
 }
 

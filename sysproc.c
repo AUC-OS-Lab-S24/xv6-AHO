@@ -106,7 +106,16 @@ sys_datetime(void)
 int
 sys_settimer(void)
 {
-  
+  int ticks;
+  void (*handler)();
+
+  if(argint(0, &ticks) < 0 || argptr(1, (char**)&handler, 1))
+    return -1;
+  myproc()->alarmOn = ticks;
+  myproc()->alarmCountDown = ticks;
+  myproc()->alarmHandler = handler;
+
+  return 0;
 }
 
 int
