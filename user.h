@@ -26,6 +26,8 @@ int uptime(void);
 int datetime(struct rtcdate *);
 int settimer(int ticks,  void (*handler)());
 int getzombcount(void);
+int getparentpid(void);
+char* getpname(int pid);
 
 // ulib.c
 int stat(const char*, struct stat*);

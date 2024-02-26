@@ -122,3 +122,17 @@ int
 sys_getzombcount(void){
   return getzombcount();
 }
+
+int
+sys_getparentpid(void){
+  return getparentpid_helper();
+}
+
+int
+sys_getpname(void){
+  int pid;
+  char *pname;
+  if(argint(0, &pid) < 0 || argptr(1, &pname, 1) < 0)
+    return -1;
+  return (getpname_helper(pid, pname));
+}

@@ -23,3 +23,5 @@
 #define SYS_datetime 22
 #define SYS_settimer 23
 #define SYS_getzombcount 24
+#define SYS_getparentpid 25
+#define SYS_getpname 26

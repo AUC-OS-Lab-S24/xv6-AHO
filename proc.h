@@ -63,3 +63,9 @@ struct proc {
 
 int
 getzombcount(void);
+
+int
+getpname_helper(int pid, char * name);
+
+int
+getparentpid_helper(void);
