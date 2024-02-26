@@ -260,8 +260,6 @@ EXTRA=\
 	printstats.c\ save.c\ testdatetime.c\ timertest.c\
 	printf.c umalloc.c\ sorting.c\ getzombcount.c\ zombietest.c\
 	testdatetime.c\ 
-	
-
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 
