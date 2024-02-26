@@ -259,7 +259,7 @@ EXTRA=\
 	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
 	printstats.c\ save.c\ testdatetime.c\ timertest.c\
 	printf.c umalloc.c\ sorting.c\ getzombcount.c\ zombietest.c\
-	printstats.c\ save.c\ testdatetime.c\ 
+	testdatetime.c\ 
 	
 
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
