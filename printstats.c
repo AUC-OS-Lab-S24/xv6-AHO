@@ -68,7 +68,7 @@ float average(int argc, char* argv[])
 }
 
 
-void main (int argc, char** argv[]) {
+int main (int argc, char * argv[]) {
   printf(1, "average: %f\n", average(argc, argv)); //AW: default float percision is 4 dec
   printf(1, "median: %.7f\n", median(argc, argv)); //AW: default float percision is 4 dec
 
