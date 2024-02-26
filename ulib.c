@@ -4,6 +4,25 @@
 #include "user.h"
 #include "x86.h"
 
+// Added by AW 
+char*
+strcat(char* s1, char* s2)
+{
+  char* result;
+  result = s1;
+  int i = 0;
+
+  while(s1++) {
+    i += 1;
+  }
+  
+  while(s2++) {
+    result[i++] = *s2;
+  }
+
+  return result;
+}
+//
 char*
 strcpy(char *s, const char *t)
 {

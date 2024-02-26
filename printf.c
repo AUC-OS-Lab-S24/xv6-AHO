@@ -72,6 +72,18 @@ printf(int fd, const char *fmt, ...)
       } else if(c == 'c'){
         putc(fd, *ap);
         ap++;
+      
+      } else if(c == 'f'){ //double 
+        int p = (*ap % 10000);
+        int x = *ap / 1000;
+        char* s = strcat((char*)p, (char*)x);
+        if(s == 0)
+            s= "(null)";
+        while(*s != 0){
+          putc(fd, *s);
+          s++;
+        }
+        ap++;
       } else if(c == '%'){
         putc(fd, c);
       } else {
