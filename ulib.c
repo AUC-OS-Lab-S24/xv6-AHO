@@ -111,6 +111,44 @@ atoi(const char *s)
   return n;
 }
 
+// AW: atof implementation, needs some validation
+double
+atof(const char*s)
+{
+  double frac_part = 0;
+  double int_part = 0;
+  double factor = 1;
+  int neg = 1;
+
+  // AW: check if negative
+  if (*s == '-') {neg = -1;};
+
+  int decimal = 0; // bool to check for fraction
+
+  while(*s) {
+    if(*s >= '0' && *s <= '9') {
+      if(decimal) { 
+        frac_part = frac_part*10 + (*s - '0');
+        factor *= 10;
+      }
+      else {
+        int_part = int_part*10 + (*s - '0');
+      }
+    } else if (*s == '.') {
+      if(decimal) {
+        return neg * (int_part + frac_part/factor); 
+      }
+      decimal = 1;
+    } else { // End of string
+      return neg * (int_part + frac_part/factor); 
+    }
+    ++s;
+  }
+
+  return neg * (int_part + frac_part/factor); 
+
+}
+
 void*
 memmove(void *vdst, const void *vsrc, int n)
 {
