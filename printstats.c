@@ -2,8 +2,8 @@
 #include "user.h"
 
 int main () {
-
-  printf(1,"hello hell");
+  float x = 3.822313;
+  printf(1,"%f \n", x);
   return 0;
 }
 

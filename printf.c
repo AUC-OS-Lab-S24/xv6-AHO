@@ -73,7 +73,7 @@ printf(int fd, const char *fmt, ...)
         putc(fd, *ap);
         ap++;
       
-      } else if(c == 'f'){ //double 
+      } else if(c == 'f'){ //printing floats by AW
         int p = (*ap % 10000);
         int x = *ap / 1000;
         char* s = strcat((char*)p, (char*)x);
