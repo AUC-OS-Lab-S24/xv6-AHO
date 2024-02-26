@@ -89,3 +89,22 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_datetime(void)
+{
+  struct rtcdate *myDate;
+  if(argptr(0, (void*)&myDate, sizeof(*myDate)) < 0){
+    // pointer for myDate is invalid
+    return -1;
+  }
+  // helper function to fill the rtcdate struct
+  cmostime(myDate);
+  return 0;
+}
+
+int
+sys_settimer(void)
+{
+  
+}
