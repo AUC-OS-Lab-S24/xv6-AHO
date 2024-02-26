@@ -6,7 +6,6 @@ int main (int argc, char** argv[]) {
   float x = 3.822313;
   printf(1,"%f \n", x);
   exit();
-  return 0;
 }
 
 
