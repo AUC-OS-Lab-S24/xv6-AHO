@@ -54,6 +54,26 @@ trap(struct trapframe *tf)
       wakeup(&ticks);
       release(&tickslock);
     }
+
+    //manipulate a process's timer ticks if there's a process running and if the timer interrupt came from user space
+    if(myproc() != 0 && (tf->cs & 3) == 3){
+
+      myproc()->alarmCountDown--;
+      if(myproc()->alarmCountDown == 0){
+        // reset alarm ticks
+        myproc()->alarmCountDown = myproc()->alarmOn;
+        // call alarm handler
+        //myproc()->alarmHandler();
+
+        // allocate space on the stack for the current address
+        tf->esp -= 4;
+        // store current address on top of the stack
+        *(uint*)tf->esp = tf->eip;
+        // set the instruction pointer to the alarm handler
+        tf->eip = (uint) myproc()->alarmHandler;
+        
+      }
+    }
     lapiceoi();
     break;
   case T_IRQ0 + IRQ_IDE:

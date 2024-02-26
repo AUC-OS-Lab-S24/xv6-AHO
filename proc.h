@@ -49,6 +49,10 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  int alarmOn;
+  void (*alarmHandler)();
+  int alarmCountDown;
+  struct trapframe *alarm_tf;
 };
 
 // Process memory is laid out contiguously, low addresses first:
@@ -56,3 +60,6 @@ struct proc {
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
+
+int
+getzombcount(void);
