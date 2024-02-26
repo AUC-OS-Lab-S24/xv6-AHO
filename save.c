@@ -8,12 +8,13 @@ char buf[512];
 int
 save(int fd, char *stringToBeAdded)
 {
-    int n;
+    int n, lengthOfStringToBeAdded;
 
-    n = (int) strlen(stringToBeAdded);
-    strcpy(buf, stringToBeAdded);
-    printf(1, "save: %s of size %d\n", buf, n);
-    if (write(fd, buf, n) != n) {
+    lengthOfStringToBeAdded = (int) strlen(stringToBeAdded);
+    //strcpy(buf, stringToBeAdded);
+    printf(1, "save: %s of size %d\n", stringToBeAdded, lengthOfStringToBeAdded);
+    while((n = read(fd, buf, sizeof(buf))) > 0);
+    if (write(fd, stringToBeAdded, lengthOfStringToBeAdded) != lengthOfStringToBeAdded) {
         printf(1, "save: write error\n");
         exit();
     }
