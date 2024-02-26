@@ -35,7 +35,7 @@ printint(int fd, int xx, int base, int sgn)
     putc(fd, buf[i]);
 }
 
-// Print to the given fd. Only understands %d, %x, %p, %s.
+// Print to the given fd. Only understands %d, %x, %p, %s, AW appended: %f, %.<percision>f
 void
 printf(int fd, const char *fmt, ...)
 {
@@ -54,6 +54,10 @@ printf(int fd, const char *fmt, ...)
         putc(fd, c);
       }
     } else if(state == '%'){
+      if(c == '.'){ // AW: if '%' is followed by '.' change the state and move on next character
+        state = '.';
+        continue;
+      }
       if(c == 'd'){
         printint(fd, *ap, 10, 1);
         ap++;
@@ -74,16 +78,16 @@ printf(int fd, const char *fmt, ...)
         ap++;
       
       } else if(c == 'f'){ //printing floats by AW
-        int p = (*ap % 10000);
-        int x = *ap / 1000;
-        char* s = strcat((char*)p, (char*)x);
-        if(s == 0)
-            s= "(null)";
-        while(*s != 0){
-          putc(fd, *s);
-          s++;
-        }
-        ap++;
+        double value = *(double*)ap;
+        int int_part = (int)value;
+        double frac = value - int_part;
+        int frac_part = frac * 10000;
+
+        if(frac_part < 0) {frac_part *= -1;}; 
+        printint(fd, int_part, 10,1);
+        putc(fd,'.');
+        printint(fd,frac_part, 10,1);
+
       } else if(c == '%'){
         putc(fd, c);
       } else {
@@ -91,6 +95,32 @@ printf(int fd, const char *fmt, ...)
         putc(fd, '%');
         putc(fd, c);
       }
+      state = 0;
+    // AW: percision handling state
+    } else if (state == '.') {
+      // AW: possible validation on i here to not be last+1 
+      char cn = fmt[i+1] & 0xff;
+      // AW: validation on percision
+      if(c <= '9' && c >= '0' && cn == 'f') {
+        double value = *(double*)ap;
+        int int_part = (int)value;
+        double frac = value - int_part;
+        for (int i = 0; i < (int)(c - '0'); i++, frac = frac * 10);
+
+        int frac_part = (int)frac;
+        if(frac_part < 0) {frac_part *= -1;};
+
+        printint(fd, int_part, 10,1);
+        putc(fd,'.');
+        printint(fd,frac_part, 10,1);
+        i++; // AW: to avoid printing the 'f'
+      } else {
+        // AW: unknown '.' sequence. print it to draw attention too.
+        putc(fd, '.');
+        putc(fd, c);
+        putc(fd, cn);
+      }
+
       state = 0;
     }
   }
