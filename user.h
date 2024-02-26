@@ -25,6 +25,7 @@ int sleep(int);
 int uptime(void);
 int datetime(struct rtcdate *);
 int settimer(uint);
+int getzombcount(void);
 
 // ulib.c
 int stat(const char*, struct stat*);

@@ -22,3 +22,4 @@
 #define SYS_close  21
 #define SYS_datetime 22
 #define SYS_settimer 23
+#define SYS_getzombcount 24

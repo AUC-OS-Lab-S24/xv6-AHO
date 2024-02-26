@@ -532,3 +532,23 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int
+getzombcount(void){
+
+int zomb_prog_counter =0;
+struct proc *p;
+
+acquire(&ptable.lock);
+for(p=ptable.proc; p<&ptable.proc[NPROC]; p++)
+{
+	if(p->state==ZOMBIE)
+	{
+	zomb_prog_counter++;
+	}
+}
+
+release(&ptable.lock);
+return zomb_prog_counter;
+
+}

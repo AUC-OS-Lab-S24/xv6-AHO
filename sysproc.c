@@ -108,3 +108,8 @@ sys_settimer(void)
 {
   
 }
+
+int
+sys_getzombcount(void){
+  return getzombcount();
+}
