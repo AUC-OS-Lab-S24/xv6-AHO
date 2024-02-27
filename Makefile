@@ -179,7 +179,7 @@ UPROGS=\
 	_sh\
 	_stressfs\
 	_usertests\
-	_wc\
+	_testpid\
 	_zombie\
 	_save\
 	_sorting\
@@ -187,6 +187,8 @@ UPROGS=\
 	_testdatetime\
 	_zombietest\
 	_timertest\
+
+#UPROGS+= _wc
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
