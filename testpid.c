@@ -5,13 +5,15 @@
 int
 main(int argc, char *argv[])
 {
-  printf(1, "Process pid: %d\n", getpid());
-  char myname[16];
-  getpname(getpid());
+  int mypid = getpid();
+  printf(1, "Process pid: %d\n", mypid);
+  char* myname;
+  myname = getpname(mypid);
   printf(1, "Process name: %s\n", myname);
-  printf(1, "Parent pid: %d\n", getparentpid());
-  char parentname[16];
-  getpname(getparentpid());
+  int parentpid = getparentpid();
+  printf(1, "Parent pid: %d\n", parentpid);
+  char *parentname;
+  parentname = getpname(parentpid);
   printf(1, "Parent name: %s\n", parentname);
   exit();
 }
