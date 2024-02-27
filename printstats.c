@@ -22,57 +22,115 @@ char checkArgs(int argc, char** argv) {
   return flagged;
 }
 
-void swap(void* a, void* b) 
+void swapf(float* a, float* b) 
 {
-  void* temp = a;
-  a = b;
-  b = temp;
+  float temp = *a;
+  *a = *b;
+  *b = temp;
 }
 
-void bsort(int argc, char* argv[]) {
-  int i, j;
-  for (i = 1; i < argc - 1; i++) {      
-    for (j = 1; j < argc - i; j++) {
-      float a = atof(argv[j]);
-      float b = atof(argv[j + 1]);
-      if (a > b) {
-        swap(&argv[j], &argv[j+1]);
-      }
-    }
+void bsort(int n, float* arr) {
+    int i, j;
+    for (i = 0; i < n - 1; i++)        
+        for (j = 0; j < n - i - 1; j++)  
+            if (arr[j] > arr[j + 1])
+                swapf(&arr[j], &arr[j + 1]);
+}
+
+double median(int argc, char** argv)
+{
+  //argv in an array 
+  float arr[argc - 1];
+  for(int i = 1; i < argc; i++) {
+    arr[i - 1] = atof(argv[i]);
   }
-}
 
-float median(int argc, char* argv[])
-{
-  if (checkArgs(argc, argv)) {exit();}
-  bsort(argc, argv);
+  bsort(argc - 1, arr); 
 
-  if((argc - 1) %2 == 0) {
-    return atof(argv[(argc-1)/2]) + atof(argv[(argc-1/2 + 1)]) / 2;
+
+  if((argc - 1) % 2 == 0) {
+    float x = arr[(argc - 1)/2];
+    float z = arr[(argc - 1)/2 + 1];
+    printf(1, "median: %f\n", x); //
+    printf(1, "median: %f\n", z); //
+
+    float res = (x + z) / 2.0;
+    return res; 
   }
   else {
-    return atof(argv[(argc-1)/2]);
+    float x = arr[(argc)/2];
+    printf(1, "median: %f\n", x); //
+    return x;
   }
   return 0;
 }
 
-float average(int argc, char* argv[])
+double average(int argc, char** argv)
 {
-  if (checkArgs(argc, argv)) {exit();}
   float sum = 0;
   for(int i = 1; i < argc; i++)
   {
-    sum += atoi(argv[i]);
+    sum += atof(argv[i]);
   }
   return sum / (float)(argc - 1);
 }
 
+double min(int argc, char** argv)
+{
+  float min = atof(argv[1]);
+  for(int i = 1; i < argc; i++) {
+    if(atof(argv[i]) <= min) { 
+      min = atof(argv[i]);
+    }
+  }
 
-void main (int argc, char** argv[]) {
-  printf(1, "average: %f\n", average(argc, argv)); //AW: default float percision is 4 dec
-  printf(1, "median: %.7f\n", median(argc, argv)); //AW: default float percision is 4 dec
+  return min;
+}
+
+double max(int argc, char** argv)
+{
+  float max = atof(argv[1]);
+  for(int i = 1; i < argc; i++) {
+    if(atof(argv[i]) >= max) { 
+      max = atof(argv[i]);
+    }
+  }
+
+  return max;
+}
+
+// AW: sqrt implementation, based on Quakes Fast Inverse Square Root algorithm
+// https://betterexplained.com/articles/understanding-quakes-fast-inverse-square-root/
+
+float sqrt(float x) {
+  float xhalf = 0.5f * x;
+  int i = *(int*)&x;
+  i = 0x5f3759df - (i >> 1);
+  x = *(float*)&i;
+  x = x*(1.5f - xhalf*x*x); // newtons Method 1st iteration
+  x = x*(1.5f - xhalf*x*x); // 2nd iteration
+  x = x*(1.5f - xhalf*x*x); // 3rd iteration 98%
+  return 1/x;               // changed to get sqrt
+}
+
+float stdDev(int argc, char** argv) {
+  float avg = average(argc, argv);
+  float sum = 0;
+  for(int i = 1; i < argc; i++) {
+    sum += (atof(argv[i]) - avg) * (atof(argv[i]) - avg);
+  }
+  return sqrt(sum / (argc - 1));
+}
+
+int main (int argc, char** argv) {
+  printf(1, "average: %f\n", average(argc, argv)); 
+  printf(1, "median: %f\n", median(argc, argv)); 
+  printf(1, "max: %f\n", max(argc, argv)); 
+  printf(1, "min: %f\n", min(argc, argv)); 
+  printf(1, "stdDev: %f\n", stdDev(argc, argv));
 
   exit();
+  return 0;
 }
 
 
