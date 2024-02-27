@@ -88,6 +88,8 @@ printf(int fd, const char *fmt, ...)
         putc(fd,'.');
         printint(fd,frac_part, 10,1);
 
+        ap++;
+
       } else if(c == '%'){
         putc(fd, c);
       } else {

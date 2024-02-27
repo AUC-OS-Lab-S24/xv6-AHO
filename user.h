@@ -43,4 +43,5 @@ void* memset(void*, int, uint);
 void* malloc(uint);
 void free(void*);
 int atoi(const char*);
-double atof(const char*); // added by AW
+float atof(char*); // added by AW
+
