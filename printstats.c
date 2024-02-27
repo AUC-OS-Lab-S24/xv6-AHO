@@ -51,15 +51,12 @@ double median(int argc, char** argv)
   if((argc - 1) % 2 == 0) {
     float x = arr[(argc - 1)/2];
     float z = arr[(argc - 1)/2 + 1];
-    printf(1, "median: %f\n", x); //
-    printf(1, "median: %f\n", z); //
 
     float res = (x + z) / 2.0;
     return res; 
   }
   else {
     float x = arr[(argc)/2];
-    printf(1, "median: %f\n", x); //
     return x;
   }
   return 0;
@@ -110,6 +107,7 @@ float sqrt(float x) {
   x = x*(1.5f - xhalf*x*x); // newtons Method 1st iteration
   x = x*(1.5f - xhalf*x*x); // 2nd iteration
   x = x*(1.5f - xhalf*x*x); // 3rd iteration 98%
+  x = x*(1.5f - xhalf*x*x); // 4rd iteration 99%
   return 1/x;               // changed to get sqrt
 }
 
