@@ -19,7 +19,7 @@ save(int fd, char *stringToBeAdded)
         exit();
     }
 
-
+    return 0;
 }
 
 int

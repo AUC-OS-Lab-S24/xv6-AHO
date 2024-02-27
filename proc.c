@@ -554,3 +554,33 @@ release(&ptable.lock);
 return zomb_prog_counter;
 
 }
+
+int
+getparentpid_helper(void)
+{
+  struct proc *p;
+  int pid;
+  acquire(&ptable.lock);
+  p=myproc();
+  pid=p->parent->pid;
+  release(&ptable.lock);
+  return pid;
+}
+
+int
+getpname_helper(int pid, char * name)
+{
+  struct proc *p;
+  acquire(&ptable.lock);
+  for(p=ptable.proc; p<&ptable.proc[NPROC]; p++)
+  {
+    if(p->pid==pid)
+    {
+      name=p->name;
+      release(&ptable.lock);
+      return 0;
+    }
+  }
+  release(&ptable.lock);
+  return -1;
+}
