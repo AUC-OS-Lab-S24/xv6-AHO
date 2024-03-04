@@ -25,3 +25,4 @@
 #define SYS_getzombcount 24
 #define SYS_getparentpid 25
 #define SYS_getpname 26
+#define SYS_truncate 27

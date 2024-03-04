@@ -442,3 +442,30 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
+// 
+int 
+sys_truncate(void){
+  char *path;
+  int size;
+  struct inode *ip;
+
+  if(argstr(0, &path) < 0 || argint(1, &size) < 0)
+    return -1;
+  begin_op();
+  if((ip = namei(path)) == 0){
+    end_op();
+    return -1;
+  }
+  ilock(ip);
+  if(ip->type == T_DIR || ip->type == T_DEV){
+    iunlockput(ip);
+    end_op();
+    return -1;
+  }
+
+  otruncate(ip, size);
+  iunlockput(ip);
+  end_op();
+  return 0;
+}

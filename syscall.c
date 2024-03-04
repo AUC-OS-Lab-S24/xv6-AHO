@@ -108,6 +108,7 @@ extern int sys_settimer(void);
 extern int sys_getzombcount(void);
 extern int sys_getparentpid(void);
 extern int sys_getpname(void);
+extern int sys_truncate(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -136,6 +137,7 @@ static int (*syscalls[])(void) = {
 [SYS_getzombcount] sys_getzombcount,
 [SYS_getparentpid] sys_getparentpid,
 [SYS_getpname] sys_getpname,
+[SYS_truncate] sys_truncate,
 };
 
 void

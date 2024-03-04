@@ -28,6 +28,7 @@ int settimer(int ticks,  void (*handler)());
 int getzombcount(void);
 int getparentpid(void);
 char* getpname(int pid);
+int truncate(const char* path, int blocks);  //AW
 
 // ulib.c
 int stat(const char*, struct stat*);
