@@ -187,6 +187,7 @@ UPROGS=\
 	_testdatetime\
 	_zombietest\
 	_timertest\
+	_wc\
 
 #UPROGS+= _wc
 
