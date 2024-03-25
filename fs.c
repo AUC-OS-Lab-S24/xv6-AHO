@@ -434,6 +434,34 @@ itrunc(struct inode *ip)
   iupdate(ip);
 }
 
+//AW: otruncate, only truncate file given a size
+//if file size bigger than given size, truncate to given size
+//if file size smaller than given size, do nothing
+int 
+otruncate(struct inode *ip, uint size)
+{
+  int i, j;
+  struct buf *bp;
+  uint *a;
+  uint b;
+
+  // AW: if inode is a directory or device, return -1
+  if(ip->type == T_DIR || ip->type == T_DEV)
+    return -1;
+
+  // AW: if file size is bigger than given size, truncate to given size
+  // truncates in blocks of BSIZE 512
+  if(ip->size > size) {
+    for(i = size; i < ip->size; i += BSIZE) {
+      b = bmap(ip, i / BSIZE);
+      bfree(ip->dev, b);
+    }
+    ip->size = size*BSIZE;
+    iupdate(ip); //must be called after every iupdate modification on disk
+  }
+  return 0;
+}
+
 // Copy stat information from inode.
 // Caller must hold ip->lock.
 void

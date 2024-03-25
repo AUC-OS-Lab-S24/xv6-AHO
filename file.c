@@ -112,6 +112,21 @@ fileread(struct file *f, char *addr, int n)
   panic("fileread");
 }
 
+// AW: truncate system call function helper
+int 
+filetruncate(struct file *f, uint size)
+{
+  if(f->type == FD_INODE){
+    begin_op();
+    ilock(f->ip);
+    int r = otruncate(f->ip, size);
+    iunlock(f->ip);
+    end_op();
+    return r;
+  }
+  return -1;
+}
+
 //PAGEBREAK!
 // Write to file f.
 int
