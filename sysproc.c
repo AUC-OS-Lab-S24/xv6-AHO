@@ -7,67 +7,62 @@
 #include "mmu.h"
 #include "proc.h"
 
-int
-sys_fork(void)
+int sys_fork(void)
 {
   return fork();
 }
 
-int
-sys_exit(void)
+int sys_exit(void)
 {
   exit();
-  return 0;  // not reached
+  return 0; // not reached
 }
 
-int
-sys_wait(void)
+int sys_wait(void)
 {
   return wait();
 }
 
-int
-sys_kill(void)
+int sys_kill(void)
 {
   int pid;
 
-  if(argint(0, &pid) < 0)
+  if (argint(0, &pid) < 0)
     return -1;
   return kill(pid);
 }
 
-int
-sys_getpid(void)
+int sys_getpid(void)
 {
   return myproc()->pid;
 }
 
-int
-sys_sbrk(void)
+int sys_sbrk(void)
 {
   int addr;
   int n;
 
-  if(argint(0, &n) < 0)
+  if (argint(0, &n) < 0)
     return -1;
   addr = myproc()->sz;
-  if(growproc(n) < 0)
+  if (growproc(n) < 0)
     return -1;
   return addr;
 }
 
-int
-sys_sleep(void)
+int sys_sleep(void)
 {
   int n;
   uint ticks0;
 
-  if(argint(0, &n) < 0)
+  if (argint(0, &n) < 0)
     return -1;
   acquire(&tickslock);
   ticks0 = ticks;
-  while(ticks - ticks0 < n){
-    if(myproc()->killed){
+  while (ticks - ticks0 < n)
+  {
+    if (myproc()->killed)
+    {
       release(&tickslock);
       return -1;
     }
@@ -79,8 +74,7 @@ sys_sleep(void)
 
 // return how many clock tick interrupts have occurred
 // since start.
-int
-sys_uptime(void)
+int sys_uptime(void)
 {
   uint xticks;
 
@@ -90,11 +84,11 @@ sys_uptime(void)
   return xticks;
 }
 
-int
-sys_datetime(void)
+int sys_datetime(void)
 {
   struct rtcdate *myDate;
-  if(argptr(0, (void*)&myDate, sizeof(*myDate)) < 0){
+  if (argptr(0, (void *)&myDate, sizeof(*myDate)) < 0)
+  {
     // pointer for myDate is invalid
     return -1;
   }
@@ -103,13 +97,12 @@ sys_datetime(void)
   return 0;
 }
 
-int
-sys_settimer(void)
+int sys_settimer(void)
 {
   int ticks;
   void (*handler)();
 
-  if(argint(0, &ticks) < 0 || argptr(1, (char**)&handler, 1))
+  if (argint(0, &ticks) < 0 || argptr(1, (char **)&handler, 1))
     return -1;
   myproc()->alarmOn = ticks;
   myproc()->alarmCountDown = ticks;
@@ -118,21 +111,36 @@ sys_settimer(void)
   return 0;
 }
 
-int
-sys_getzombcount(void){
+int sys_getzombcount(void)
+{
   return getzombcount();
 }
 
-int
-sys_getparentpid(void){
+int sys_getparentpid(void)
+{
   return getparentpid_helper();
 }
 
-int
-sys_getpname(void){
+int sys_getpname(void)
+{
   int pid;
   char *pname;
-  if(argint(0, &pid) < 0 || argptr(1, &pname, 1) < 0)
+  if (argint(0, &pid) < 0 || argptr(1, &pname, 1) < 0)
     return -1;
   return (getpname_helper(pid, pname));
+}
+
+// Changes the priority of process pid to pr after it validates the input and returns the old priority
+int sys_setpriority(void)
+{
+  int pid, pr;
+  if (argint(0, &pid) < 0 || argint(1, &pr) < 0)
+    return -1;
+  return setpriority(pid, pr);
+}
+
+// Prints the name, pid, status and priority of processes in ptable
+int sys_printptable(void)
+{
+  return printptable();
 }
