@@ -117,6 +117,9 @@ found:
 
   // initalize ticks
   p->alarmOn = 0;
+
+  // initalize priority
+  p->priority = 0;
   return p;
 }
 
@@ -337,7 +340,7 @@ void scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
-  int max_priority = -1;
+  int max_priority = -2147483648; // INT_MIN
   struct proc *max_priority_proc = 0;
 
   for (;;)
@@ -347,6 +350,7 @@ void scheduler(void)
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
+    int max_priority = -2147483648; // INT_MIN
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     {
       if (p->state != RUNNABLE)
@@ -355,7 +359,7 @@ void scheduler(void)
       }
       else
       {
-        if (p->priority >= max_priority) // will get stuck if > as init is runnable and so is sh, and it will pick init
+        if (p->priority > max_priority) // will get stuck if > as init is runnable and so is sh, and it will pick init
         {
           max_priority = p->priority;
           max_priority_proc = p;
@@ -369,6 +373,8 @@ void scheduler(void)
     if (max_priority_proc != 0 && max_priority_proc->state == RUNNABLE)
     {
       c->proc = max_priority_proc;
+      // if (max_priority_proc->priority > 0) max_priority_proc->priority--;
+      max_priority_proc->priority--;
       switchuvm(max_priority_proc);
       max_priority_proc->state = RUNNING;
 
