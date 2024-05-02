@@ -354,7 +354,7 @@ void scheduler(void)
     max_priority_proc = 0;
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     {
-      if (p->priority < -100) // this allows priority to be infinitly decremented by reseting it to -1
+      if (p->priority < -10) // this allows priority to be infinitly decremented by reseting it to -1
         p->priority = -1;
       if (p->state != RUNNABLE)
       {
