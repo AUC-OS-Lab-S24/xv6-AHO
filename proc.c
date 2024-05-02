@@ -350,6 +350,8 @@ void scheduler(void)
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
+    max_priority = -1;
+    max_priority_proc = 0;
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     {
       if (p->state != RUNNABLE)
@@ -358,17 +360,17 @@ void scheduler(void)
       }
       else
       {
-        if (p->priority >= max_priority) // will get stuck if > as init is runnable and so is sh, and it will pick init
+        if (p->priority >= max_priority) // if they are the same priority, the last in the table will be chosen
         {
           max_priority = p->priority;
           max_priority_proc = p;
         }
       }
     }
-
-    // Switch to chosen process.  It is the process's job
-    // to release ptable.lock and then reacquire it
-    // before jumping back to us.
+    //   cprintf("max_priority_proc: %s\n", max_priority_proc->name);
+    //   Switch to chosen process.  It is the process's job
+    //   to release ptable.lock and then reacquire it
+    //   before jumping back to us.
     if (max_priority_proc != 0 && max_priority_proc->state == RUNNABLE)
     {
       c->proc = max_priority_proc;
