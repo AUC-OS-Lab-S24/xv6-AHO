@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     if (old >= 0)
     {
-        printf(1, "Priority changed from %d to %d fr\n", old, priority);
+        printf(1, "Priority changed from %d to %d\n", old, priority);
     }
     else
     {
