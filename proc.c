@@ -352,10 +352,15 @@ void scheduler(void)
     acquire(&ptable.lock);
     max_priority = -2147483648; // INT_MIN
     max_priority_proc = 0;
+    int reset = 0;
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     {
-      if (p->priority < -10) // this allows priority to be infinitly decremented by reseting it to -1
-        p->priority = -1;
+      if (p->priority < 0)
+      {
+        // reset priority of all negative priority processes to -1
+        reset = 1;
+      } // this allows priority to be infinitly decremented by reseting it to -1
+
       if (p->state != RUNNABLE)
       {
         continue;
@@ -366,6 +371,16 @@ void scheduler(void)
         {
           max_priority = p->priority;
           max_priority_proc = p;
+        }
+      }
+    }
+    if (reset)
+    {
+      for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+      {
+        if (p->priority < 0)
+        {
+          p->priority = 0;
         }
       }
     }
