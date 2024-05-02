@@ -342,7 +342,7 @@ void scheduler(void)
   c->proc = 0;
   int max_priority = -2147483648; // INT_MIN
   struct proc *max_priority_proc = 0;
-
+  // TODO: find a fix for the priority reaching int_min if process is scheduled for a long time
   for (;;)
   {
     // Enable interrupts on this processor.
@@ -354,6 +354,8 @@ void scheduler(void)
     max_priority_proc = 0;
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     {
+      if (p->priority < -100) // this allows priority to be infinitly decremented by reseting it to -1
+        p->priority = -1;
       if (p->state != RUNNABLE)
       {
         continue;
