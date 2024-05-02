@@ -117,6 +117,9 @@ found:
 
   // initalize ticks
   p->alarmOn = 0;
+
+  // initalize priority
+  p->priority = 0;
   return p;
 }
 
