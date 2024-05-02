@@ -609,23 +609,6 @@ int setpriority(int pid, int priority)
   release(&ptable.lock);
   return -1;
 }
-
-int printptable(void)
-{
-  struct proc *p;
-  acquire(&ptable.lock);
-  cprintf("PID\tName\tState\tPriority\n");
-  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-  {
-    if (p->state != UNUSED)
-    {
-      cprintf("%d\t%s\t%s\t%d\n", p->pid, p->name, getStateName(p->state), p->priority);
-    }
-  }
-  release(&ptable.lock);
-  return 0;
-}
-
 const char *getStateName(enum procstate state)
 {
   switch (state)
@@ -645,4 +628,44 @@ const char *getStateName(enum procstate state)
   default:
     return "UNKNOWN";
   }
+}
+
+int printptable(void)
+{
+  struct proc *p;
+  acquire(&ptable.lock);
+  cprintf("PID\tName\t\tState\tPriority\n");
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if (p->state != UNUSED)
+    {
+      // cprintf("%d\t%s\t\t%s\t%d\n", p->pid, p->name, getStateName(p->state), p->priority);
+      //  if name is less than 8 characters, add a tab to make the output look better
+      //  if state is less than 8 characters, add a tab to make the output look better
+      if (strlen(p->name) < 8)
+      {
+        if (strlen(getStateName(p->state)) < 8)
+        {
+          cprintf("%d\t%s\t\t%s\t\t%d\n", p->pid, p->name, getStateName(p->state), p->priority);
+        }
+        else
+        {
+          cprintf("%d\t%s\t\t%s\t%d\n", p->pid, p->name, getStateName(p->state), p->priority);
+        }
+      }
+      else
+      {
+        if (strlen(getStateName(p->state)) < 8)
+        {
+          cprintf("%d\t%s\t%s\t\t%d\n", p->pid, p->name, getStateName(p->state), p->priority);
+        }
+        else
+        {
+          cprintf("%d\t%s\t%s\t%d\n", p->pid, p->name, getStateName(p->state), p->priority);
+        }
+      }
+    }
+  }
+  release(&ptable.lock);
+  return 0;
 }
