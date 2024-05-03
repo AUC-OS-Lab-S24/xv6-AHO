@@ -31,6 +31,7 @@ char *getpname(int pid);
 int truncate(const char *path, int blocks);
 int setpriority(int pid, int priority);
 int printptable(void);
+void testpriority(void);
 
 // ulib.c
 int stat(const char *, struct stat *);

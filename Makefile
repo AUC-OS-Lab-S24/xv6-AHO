@@ -193,6 +193,8 @@ UPROGS=\
 	_parallel_compute\
 	_setpriority\
 	_printptable\
+	_testpriority\
+	_testprioritydecay\
 
 #UPROGS+= _wc
 
@@ -266,7 +268,7 @@ EXTRA=\
 	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
 	printf.c umalloc.c save.c sorting.c printstats.c testdatetime.c\
 	zombietest.c timertest.c sequential_compute.c parallel_compute.c\
-	setpriority.c printptable.c\
+	setpriority.c printptable.c testpriority.c testprioritydecay.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 
