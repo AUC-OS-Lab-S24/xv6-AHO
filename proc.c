@@ -355,11 +355,11 @@ void scheduler(void)
     int reset = 0;
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     {
-      if (p->priority < 0)
+      if (p->priority < -1)
       {
-        // reset priority of all negative priority processes to -1
+        // reset priority of all negative priority processes to 0
         reset = 1;
-      } // this allows priority to be infinitly decremented by reseting it to -1
+      } // this allows priority to be infinitly decremented by reseting it to 0
 
       if (p->state != RUNNABLE)
       {
